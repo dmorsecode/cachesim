@@ -358,11 +358,14 @@
 								class="text-center transition-all duration-[10ms] ease-in-out font-mono"
 								class:text-xs={block.hex == '0x00000000'}
 								class:opacity-50={block.hex == '0x00000000' && block.lastUsed < 1}
-								class:bg-[#4BB543]={prevIndex == block.index && prevTag == block.tag && prevHit}
+								class:bg-[#4BB543]={prevIndex == block.index &&
+									prevTag == block.tag &&
+									prevHit &&
+									block.lastUsed > 1}
 								class:bg-[#CC0000]={prevIndex == block.index &&
 									prevTag == block.tag &&
 									!prevHit &&
-									counter > 0}>{block.hex}</td
+									block.lastUsed > 0}>{block.hex}</td
 							>
 						{/each}
 					</tr>
