@@ -1,7 +1,7 @@
 <script>
 	import Graph from '$lib/Graph.svelte';
-	/** @type {import('./$types').PageData} */
-	export let data;
+	import gcc from '$lib/traces/gcc.trace?raw';
+	import swim from '$lib/traces/swim.trace?raw';
 
 	let files;
 	let uploadedText = '';
@@ -148,17 +148,17 @@
 		let trace;
 		switch (file) {
 			case 'gcc':
-				trace = data.props.gcc;
+				trace = gcc;
 				generateCache();
 				break;
 			case 'swim':
-				trace = data.props.swim;
+				trace = swim;
 				generateCache();
 				break;
-			case 'read01':
-				trace = data.props.read01;
-				generateCache();
-				break;
+			// case 'read01':
+			// 	trace = data.props.read01;
+			// 	generateCache();
+			// 	break;
 			default:
 				trace = file;
 			//console.log(trace, uploadedText);
@@ -265,6 +265,7 @@
 					<option value="Random">Random</option>
 				</select>
 				<div class="form-control pb-2">
+					<!-- svelte-ignore a11y-label-has-associated-control -->
 					<label class="label">
 						<span class="label-text -mb-2">Line-by-line Delay</span>
 					</label>
@@ -351,10 +352,10 @@
 			{#if cache}
 				{#each Object.keys(cache) as set}
 					<tr>
-						<td>Set {set}</td>
+						<td class="bg-gray-300">SET {set}</td>
 						{#each cache[set] as block}
 							<td
-								class="text-center transition-all duration-200 ease-in-out"
+								class="text-center transition-all duration-200 ease-in-out font-mono"
 								class:text-xs={block.hex == '0x00000000'}
 								class:opacity-50={block.hex == '0x00000000' && block.lastUsed < 1}
 								class:bg-[#4BB543]={prevIndex == block.index && prevTag == block.tag && prevHit}
