@@ -1,38 +1,37 @@
-# create-svelte
+# Dillon Morse — Cache Sim
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+This SvelteKit-powered website simulates hits and misses in a cache size using trace files as input (either included with the project or provided by the user in the proper format). The cache size, associativity, block size, and replacement method are configurable.
 
-## Creating a project
+The included graph is a plot of the resulting hit rate with various configurations when parsing the provided gcc.trace file.
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Trace Format
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+Traces should be in the following format with lines separated by newline `\n` characters:
 
 ```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+l 0x0000AA40 1
+l 0x0000AA40 1
+l 0x0000AA40 1
+l 0x0000F231 1
+l 0x8000AA40 1
 ```
+
+The first character and last character are ignored and only the HEX address is used in this simulation.
+
+## Line-by-line Delay
+
+This setting changes how fast the simulator will parse a given trace file. Setting it to values at 5ms or higher will allow you to watch the table representing the cache as it goes through the trace file, however for large trace files this will make the simulation time take a minimum of 20 minutes.
+
+Values lower than 4-5 (depending on browser) will result in a delay of ZERO milliseconds due to browser limitations with JavaScript's setInterval() method. Thus, using an extremely low value will have the simulator speed through the trace file as fast as possible, most likely causing your browser to lock up in the meantime. However, it does finish running through the file around ~25x faster in my testing, so there's that.
 
 ## Building
 
-To create a production version of your app:
+To build and compile your own local copy of this Cache Simulator, you must clone this project, install dependencies, and then build with the following commands:
 
 ```bash
+npm install
 npm run build
 ```
 
 You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+To run a development server instead, use `npm run dev` instead.
