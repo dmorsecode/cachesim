@@ -4,6 +4,8 @@ This SvelteKit-powered website simulates hits and misses in a cache size using t
 
 The included graph is a plot of the resulting hit rate with various configurations when parsing the provided gcc.trace file.
 
+You can find an online demo [HERE](https://dmorsecachesim.netlify.app/).
+
 ## Trace Format
 
 Traces should be in the following format with lines separated by newline `\n` characters:
