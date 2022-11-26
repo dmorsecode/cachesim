@@ -6,4 +6,4 @@
  command = "svelte-kit dev"
  
 [functions]
-  directory = "netlify/functions"
+  included_files = ["files/**"]
