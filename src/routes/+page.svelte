@@ -355,7 +355,7 @@
 						<td class="bg-gray-300">SET {set}</td>
 						{#each cache[set] as block}
 							<td
-								class="text-center transition-all duration-200 ease-in-out font-mono"
+								class="text-center transition-all duration-[10ms] ease-in-out font-mono"
 								class:text-xs={block.hex == '0x00000000'}
 								class:opacity-50={block.hex == '0x00000000' && block.lastUsed < 1}
 								class:bg-[#4BB543]={prevIndex == block.index && prevTag == block.tag && prevHit}

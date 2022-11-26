@@ -26,6 +26,8 @@ This setting changes how fast the simulator will parse a given trace file. Setti
 
 Values lower than 4-5 (depending on browser) will result in a delay of ZERO milliseconds due to browser limitations with JavaScript's setInterval() method. Thus, using an extremely low value will have the simulator speed through the trace file as fast as possible, most likely causing your browser to lock up in the meantime. However, it does finish running through the file around ~25x faster in my testing, so there's that.
 
+**PLEASE NOTE** that when the simulator gets a hit, the corresponding table cell will flash green, and red for a miss. Setting the line-by-line delay to a low value will cause rapid flashing of these colours on individual cells.
+
 ## Building
 
 To build and compile your own local copy of this Cache Simulator, you must clone this project, install dependencies, and then build with the following commands:
