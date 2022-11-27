@@ -17,7 +17,7 @@
 		loadFile(uploadedText);
 	}
 
-	let delay = 50;
+	let delay = 5;
 
 	let counter = 0;
 
@@ -54,6 +54,8 @@
 
 	$: setNum = cacheSize / (blockSize * assocNum);
 
+	$: traceRemaining = 0;
+
 	function handleChange() {
 		if (assocPower > Math.log2(cacheSize / blockSize)) {
 			assocPower = Math.log2(cacheSize / blockSize);
@@ -70,6 +72,7 @@
 		for (let i = 0; i < setNum; i++) {
 			cache[i] = [];
 			for (let j = 0; j < assocNum; j++) {
+				// cache[i].push(new Line(false, 0, 0, '0x00000000'));
 				cache[i].push(new Line(false, 0, 0, '0x00000000'));
 			}
 		}
@@ -166,6 +169,7 @@
 		// console log every line of trace in 1 second intervals
 		let lines = trace.split('\n');
 		let i = 0;
+		traceRemaining = lines.length - 1;
 		if (delay > 1) {
 			let interval = setInterval(() => {
 				if (i < lines.length - 1) {
@@ -175,6 +179,7 @@
 						let address = lines[i].slice(2, -2);
 						//console.log(address, i);
 						addAddress(address);
+						traceRemaining--;
 					}
 					i++;
 				} else {
@@ -188,6 +193,7 @@
 				addAddress(address);
 				//console.log(address, i);
 				i++;
+				traceRemaining--;
 			});
 		}
 	}
@@ -279,7 +285,7 @@
 								delay = delay;
 							}}
 							type="text"
-							placeholder="50"
+							placeholder="5"
 							class="input input-sm input-bordered w-2/5"
 						/>
 						<span>ms</span>
@@ -315,11 +321,7 @@
 						</tr>
 						<tr>
 							<td>Total Misses: {misses}</td>
-							<td
-								>Miss Rate: {hits || misses
-									? Math.round((misses / (hits + misses)) * 10000) / 100 + '%'
-									: 'N/A'}</td
-							>
+							<td>Accesses Remaining: {traceRemaining}</td>
 						</tr>
 					</tbody>
 				</table>
@@ -347,17 +349,17 @@
 			>
 		</div>
 	</div> -->
-	<div class="flex-grow overflow-scroll h-[48.5rem] bg-[#eeeeee] ml-2 rounded">
+	<div class="flex-grow overflow-scroll h-[46rem] bg-[#eeeeee] ml-2 rounded">
 		<table class="table table-compact table-zebra">
 			{#if cache}
 				{#each Object.keys(cache) as set}
-					<tr>
+					<tr class="w-full">
 						<td class="bg-gray-300">SET {set}</td>
 						{#each cache[set] as block}
 							<td
-								class="text-center transition-all duration-[10ms] ease-in-out font-mono"
-								class:text-xs={block.hex == '0x00000000'}
-								class:opacity-50={block.hex == '0x00000000' && block.lastUsed < 1}
+								class="text-center text-justify transition-all duration-[10ms] ease-in-out font-mono"
+								class:text-xs={block.hex == '0x00000000' && false}
+								class:opacity-30={block.hex == '0x00000000' && block.lastUsed < 1}
 								class:bg-[#4BB543]={prevIndex == block.index &&
 									prevTag == block.tag &&
 									prevHit &&
